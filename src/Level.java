@@ -1,7 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
 
-import creatures.Player;
 import encounters.Encounter;
 import global.PlayerGlobal;
 import global.Reader;
