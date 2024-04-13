@@ -1,13 +1,14 @@
 package encounters;
 
-import creatures.Player;
+public class Combat extends Encounter {
 
-public class Combat implements IEncounter {
+    public Combat(String name, String description) {
+        super(name, description);
+    }
 
     @Override
-    public void interact(Player player) {
+    public boolean interact() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'interact'");
-    }
-    
+    }    
 }

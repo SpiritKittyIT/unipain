@@ -1,28 +1,28 @@
 package encounters;
 
 import java.util.ArrayList;
-import java.util.Scanner;
 
 import cards.Card;
-import creatures.Player;
+import global.PlayerGlobal;
+import global.Reader;
 
-public class Shop implements IEncounter {
+public class Shop extends Encounter {
     private ArrayList<Card> cards;
     private ArrayList<Integer> prices;
 
-    public Shop(ArrayList<Card> cards, ArrayList<Integer> prices) {
+    public Shop(String name, String description, ArrayList<Card> cards, ArrayList<Integer> prices) {
+        super(name, description);
         this.cards = cards;
         this.prices = prices;
     }
 
     @Override
-    public void interact(Player player) {
+    public boolean interact() {
         this.welcomeMessage();
 
-        Scanner sc = new Scanner(System.in);
         boolean leave = false;
         while (true) {
-            String action = sc.nextLine();
+            String action = Reader.readLine();
             String[] words = action.split(" ");
             if (!(words[0].equals("buy") && words.length == 2) && words.length != 1) {
                 System.out.println("that is an invalid action");
@@ -31,14 +31,14 @@ public class Shop implements IEncounter {
             switch (words[0]) {
                 case "list":
                     for (int i = 0; i < this.cards.size(); i++) {
-                        System.out.println(i + " - (" + this.prices.get(i) + "g)"  + cards.get(i).getName() + ": " + cards.get(i).getDescription());
+                        System.out.println(i + " - (" + this.prices.get(i) + "g) "  + cards.get(i).getName() + ": " + cards.get(i).getDescription());
                     }
                     break;
                 case "check":
-                    checkWallet(player);
+                    checkWallet();
                     break;
                 case "buy":
-                    this.buyItem(player, words[1]);
+                    this.buyItem(words[1]);
                     break;
                 case "leave":
                     leave = true;
@@ -53,7 +53,8 @@ public class Shop implements IEncounter {
                 break;
             }
         }
-        sc.close();
+
+        return false;
     }
 
     private void welcomeMessage() {
@@ -66,28 +67,27 @@ public class Shop implements IEncounter {
         System.out.println("leave - leave our glorious shop");
     }
 
-    private void checkWallet(Player player) {
-        System.out.println("your wallet has " + player.getGold() + " gold in it");
+    private void checkWallet() {
+        System.out.println("your wallet has " + PlayerGlobal.getPlayer().getGold() + " gold in it");
         for (int price : this.prices) {
-            if (price < player.getGold()) { return; }
+            if (price < PlayerGlobal.getPlayer().getGold()) { return; }
         }
         System.out.println("what are you still doing here you poor plebian? your wallet is too small for this shop");
     }
 
-    private void buyItem(Player player, String selectedItem) {
+    private void buyItem(String selectedItem) {
         int index;
         if (!selectedItem.matches("\\d*") || (index = Integer.parseInt(selectedItem)) >= this.cards.size()) {
             System.out.println("we have no such thing in our inventory");
             return;
         }
 
-        if (player.getGold() < this.prices.get(index)) {
+        if (PlayerGlobal.getPlayer().getGold() < this.prices.get(index)) {
             System.out.println("this item is too good for your poor plebian wallet");
             return;
         }
 
-        player.addCard(this.cards.get(index));
+        PlayerGlobal.getPlayer().addCard(this.cards.get(index));
         System.out.println("you have bought: " + this.cards.get(index).getName());
-    }
-    
+    }    
 }
