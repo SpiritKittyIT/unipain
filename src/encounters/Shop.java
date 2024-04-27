@@ -31,11 +31,11 @@ public class Shop extends Encounter {
             switch (words[0]) {
                 case "list":
                     for (int i = 0; i < this.cards.size(); i++) {
-                        System.out.println(i + " - (" + this.prices.get(i) + "g) "  + cards.get(i).getName() + ": " + cards.get(i).getDescription());
+                        System.out.println(i + " - (" + this.prices.get(i) + "g) "  + this.cards.get(i).getName() + ": " + this.cards.get(i).getDescription());
                     }
                     break;
                 case "check":
-                    checkWallet();
+                    this.checkWallet();
                     break;
                 case "buy":
                     this.buyItem(words[1]);
@@ -70,14 +70,20 @@ public class Shop extends Encounter {
     private void checkWallet() {
         System.out.println("your wallet has " + PlayerGlobal.getPlayer().getGold() + " gold in it");
         for (int price : this.prices) {
-            if (price < PlayerGlobal.getPlayer().getGold()) { return; }
+            if (price < PlayerGlobal.getPlayer().getGold()) {
+                return;
+            }
         }
         System.out.println("what are you still doing here you poor plebian? your wallet is too small for this shop");
     }
 
     private void buyItem(String selectedItem) {
-        int index;
-        if (!selectedItem.matches("\\d*") || (index = Integer.parseInt(selectedItem)) >= this.cards.size()) {
+        if (!selectedItem.matches("\\d*")) {
+            System.out.println("invalid argument, can you not follow simple instructions?");
+            return;
+        }
+        int index = Integer.parseInt(selectedItem);
+        if (index >= this.cards.size()) {
             System.out.println("we have no such thing in our inventory");
             return;
         }

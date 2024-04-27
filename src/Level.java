@@ -18,7 +18,7 @@ public class Level {
 
     public void start() {
         this.welcomeMessage();
-        while (PlayerGlobal.getPlayer().getHp() > 0 && !encounters.isEmpty()) {
+        while (PlayerGlobal.getPlayer().getHp() > 0 && !this.encounters.isEmpty()) {
             this.interact();
         }
     }
@@ -77,12 +77,16 @@ public class Level {
     }
 
     private int checkEncounter(String selectedEncounter) {
-        int resilt;
-        if (!selectedEncounter.matches("\\d*") || (resilt = Integer.parseInt(selectedEncounter)) >= this.countInteractable()) {
+        if (!selectedEncounter.matches("\\d*")) {
+            System.out.println("invalid argument, can you not follow simple instructions?");
+            return -1;
+        }
+        int result = Integer.parseInt(selectedEncounter);
+        if (result >= this.countInteractable()) {
             System.out.println("there is no such encounter");
             return -1;
         }
-        return resilt;
+        return result;
     }
 
     private void closeEncounter(String selectedEncounter) {

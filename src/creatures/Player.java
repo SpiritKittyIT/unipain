@@ -8,7 +8,7 @@ public class Player extends Creature {
     private int gold;
 
     public Player(int maxHp, ArrayList<Card> cards) {
-        super(maxHp, cards);
+        super(maxHp, cards, "Player");
         this.gold = 0;
     }
 

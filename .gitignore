@@ -4,6 +4,9 @@
 # Log file
 *.log
 
+# vs code
+.vscode
+
 # BlueJ files
 *.ctxt
 

@@ -8,11 +8,13 @@ public abstract class Creature {
     private int maxHp;
     private int hp;
     private ArrayList<Card> cards;
+    private String name;
 
-    public Creature(int maxHp, ArrayList<Card> cards) {
+    public Creature(int maxHp, ArrayList<Card> cards, String name) {
         this.maxHp = maxHp;
         this.hp = maxHp;
         this.cards = cards;
+        this.name = name;
     }
 
     public ArrayList<Card> getCards() {
@@ -44,6 +46,12 @@ public abstract class Creature {
     }
 
     public void addMaxHp(int maxHp) {
+        float ratio = (float)this.hp / this.maxHp;
         this.maxHp += maxHp;
+        this.hp = Math.round(this.hp * ratio);
+    }
+
+    public String getName() {
+        return this.name;
     }
 }
