@@ -142,7 +142,7 @@ public class Main {
         Modifier echoPtsd = new Echo("PTSD trigger", 2);
         Card eqPtsd = new Equipment("PTSD trigger", "Learn about your opponents trauma and exploit it in combat", echoPtsd);
         Card attBang = new Confusion("Flash bang", "Throw a flash bang at your enemy giving them {s} stacks of confusion", 2);
-        Card jug = new Healing("Ghug Jug", "Chug from the legendary Chug Jug recieving {h} health", 5);
+        Card jug = new Healing("Chug Jug", "Chug from the legendary Chug Jug receiving {h} health", 5);
 
         ArrayList<Card> shop2Cards = new ArrayList<>();
         ArrayList<Integer> shop2Prices = new ArrayList<>();
