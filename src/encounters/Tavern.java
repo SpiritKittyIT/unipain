@@ -6,14 +6,14 @@ import cards.Card;
 import global.PlayerGlobal;
 import global.Reader;
 
-public class Shop extends Encounter {
-    private ArrayList<Card> cards;
-    private ArrayList<Integer> prices;
+public class Tavern extends Encounter {
+    private int defaultPrice;
+    private int price;
 
-    public Shop(String name, String description, ArrayList<Card> cards, ArrayList<Integer> prices) {
+    public Tavern(String name, String description, int price) {
         super(name, description);
-        this.cards = cards;
-        this.prices = prices;
+        this.defaultPrice = price;
+        this.price = price;
     }
 
     @Override
@@ -22,23 +22,24 @@ public class Shop extends Encounter {
 
         boolean leave = false;
         while (true) {
+            ArrayList<Card> playerCards = PlayerGlobal.getPlayer().getCards();
             String action = Reader.readLine();
             String[] words = action.split(" ");
-            if (!(words[0].equals("buy") && words.length == 2) && words.length != 1) {
+            if (!(words[0].equals("forget") && words.length == 2) && words.length != 1) {
                 System.out.println("that is an invalid action");
                 continue;
             }
             switch (words[0]) {
                 case "list":
-                    for (int i = 0; i < this.cards.size(); i++) {
-                        System.out.println(i + " - (" + this.prices.get(i) + "g) "  + this.cards.get(i).getName() + ": " + this.cards.get(i).getDescription());
+                    for (int i = 0; i < playerCards.size(); i++) {
+                        System.out.println(i + " - (" + this.price + "g) "  + playerCards.get(i).getName() + ": " + playerCards.get(i).getDescription());
                     }
                     break;
                 case "check":
                     this.checkWallet();
                     break;
-                case "buy":
-                    this.buyItem(words[1]);
+                case "forget":
+                    this.forgetItem(words[1]);
                     break;
                 case "leave":
                     leave = true;
@@ -49,7 +50,7 @@ public class Shop extends Encounter {
                     break;
             }
             if (leave) {
-                System.out.println("We sincerely hope you had a great experience in our glorious shop");
+                System.out.println("We sincerely hope you had a great experience in our totally licenced tavern");
                 break;
             }
         }
@@ -59,42 +60,46 @@ public class Shop extends Encounter {
 
     private void welcomeMessage() {
         System.out.println("----------------------------------------");
-        System.out.println("Welcome to our glorious shop, please select from our majestic wares!");
+        System.out.println("Welcome to our totally licenced tavern!");
+        System.out.println("Our drinks may, or may not give you amnesia.");
         System.out.println("The following actions are permitted:");
         System.out.println("list - lists our majestic wares");
         System.out.println("check - check your wallet");
-        System.out.println("buy [n] - buy the item numbered as [n]");
-        System.out.println("leave - leave our glorious shop");
+        System.out.println("forget [n] - forget the item numbered as [n]");
+        System.out.println("leave - leave our totally licenced tavern");
     }
 
     private void checkWallet() {
         System.out.println("your wallet has " + PlayerGlobal.getPlayer().getGold() + " gold in it");
-        for (int price : this.prices) {
-            if (price < PlayerGlobal.getPlayer().getGold()) {
-                return;
-            }
+        if (this.price < PlayerGlobal.getPlayer().getGold()) {
+            return;
         }
-        System.out.println("what are you still doing here you poor plebian? your wallet is too small for this shop");
+        System.out.println("what are you still doing here you poor plebian? your wallet is too small to buy any of our drinks!");
     }
 
-    private void buyItem(String selectedItem) {
+    private void forgetItem(String selectedItem) {
         if (!selectedItem.matches("\\d*")) {
             System.out.println("invalid argument, can you not follow simple instructions?");
             return;
         }
+
         int index = Integer.parseInt(selectedItem);
-        if (index >= this.cards.size()) {
+        ArrayList<Card> playerCards = PlayerGlobal.getPlayer().getCards();
+
+        if (index >= playerCards.size()) {
             System.out.println("we have no such thing in our inventory");
             return;
         }
 
-        if (PlayerGlobal.getPlayer().getGold() < this.prices.get(index)) {
-            System.out.println("this item is too good for your poor plebian wallet");
+        if (PlayerGlobal.getPlayer().getGold() < this.price) {
+            System.out.println("your poor plebian wallet is too small");
             return;
         }
 
-        PlayerGlobal.getPlayer().addCard(this.cards.get(index));
-        PlayerGlobal.getPlayer().addGold(-this.prices.get(index));
-        System.out.println("you have bought: " + this.cards.get(index).getName());
+        Card toRemove = playerCards.get(index);
+        PlayerGlobal.getPlayer().removeCard(toRemove);
+        PlayerGlobal.getPlayer().addGold(-this.price);
+        System.out.println("you forgot: " + toRemove.getName());
+        this.price += this.defaultPrice;
     }    
 }

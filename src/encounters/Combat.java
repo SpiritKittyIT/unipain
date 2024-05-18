@@ -7,11 +7,13 @@ import global.Reader;
 public class Combat extends Encounter {
     private Combatant npc;
     private Combatant pc;
+    private int loot;
 
-    public Combat(String description, Creature enemy) {
+    public Combat(String description, Creature enemy, int loot) {
         super(enemy.getName(), description);
         this.npc = new Combatant(enemy);
         this.pc = new Combatant(PlayerGlobal.getPlayer());
+        this.loot = loot;
     }
 
     @Override
@@ -20,7 +22,9 @@ public class Combat extends Encounter {
         System.out.println("Oh no, " + this.getName() + " wants to fight you. Slap them to death!");
         this.listActions();
 
+        this.pc = new Combatant(PlayerGlobal.getPlayer());
         this.pc.onTurnStart();
+        PlayerGlobal.getPlayer().addHp(PlayerGlobal.getPlayer().getMaxHp());
 
         while (this.npc.getHp() > 0 && this.pc.getHp() > 0) {
             String action = Reader.readLine();
@@ -83,7 +87,7 @@ public class Combat extends Encounter {
     private void finalise() {
         if (this.pc.getHp() > 0) {
             System.out.println("so, you are not that useles, huh. after looting your opponent, you find 20 gold");
-            PlayerGlobal.getPlayer().addGold(20);
+            PlayerGlobal.getPlayer().addGold(this.loot);
         }
     }
 }

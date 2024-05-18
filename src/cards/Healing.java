@@ -2,12 +2,12 @@ package cards;
 
 import encounters.Combatant;
 
-public class Attack extends Card {
-    private int damage;
+public class Healing extends Card {
+    private int health;
 
-    public Attack(String name, String description, int damage) {
-        super(name, description, CardTarget.OPPONENT);
-        this.damage = damage;
+    public Healing(String name, String description, int health) {
+        super(name, description, CardTarget.SELF);
+        this.health = health;
     }
 
     @Override
@@ -18,12 +18,12 @@ public class Attack extends Card {
             System.out.println("your opponent has used " + this.getName());
         }
 
-        combatant.dealDamage(this.damage, true);
+        combatant.heal(this.health);
         
         if (playerAction) {
-            System.out.println("your opponent has " + combatant.getHp() + " hp left");
-        } else {
             System.out.println("you have " + combatant.getHp() + " hp left");
+        } else {
+            System.out.println("your opponent has " + combatant.getHp() + " hp left");
         }
 
         return false;
@@ -31,6 +31,6 @@ public class Attack extends Card {
 
     @Override
     public String getDescription() {
-        return super.getDescription().replaceAll("\\{d}", "" + this.damage);
+        return super.getDescription().replaceAll("\\{h}", "" + this.health);
     }
 }

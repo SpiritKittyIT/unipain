@@ -5,17 +5,15 @@ import encounters.Combatant;
 public abstract class Card {
     private String name;
     private String description;
-    private CardType type;
+    private CardTarget type;
 
-    public Card(String name, String description, CardType type) {
+    public Card(String name, String description, CardTarget type) {
         this.name = name;
         this.description = description;
         this.type = type;
     }
 
-    public void use(boolean playerAction, Combatant combatant) {
-        throw new UnsupportedOperationException("Unimplemented method 'use'");
-    }
+    public abstract boolean use(boolean playerAction, Combatant combatant);
 
     public String getName() {
         return this.name;
@@ -25,7 +23,7 @@ public abstract class Card {
         return this.description;
     }
 
-    public CardType getType() {
+    public CardTarget getTarget() {
         return this.type;
     }
 }

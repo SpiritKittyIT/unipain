@@ -1,18 +1,25 @@
 package cards;
 
 import encounters.Combatant;
+import modifiers.Modifier;
 
-public abstract class Equipment extends Card {
-    public Equipment(String name, String description) {
-        super(name, description, CardType.EQUIPMENT);
+public class Equipment extends Card {
+    private Modifier modifier;
+
+    public Equipment(String name, String description, Modifier modifier) {
+        super(name, description, CardTarget.SELF);
     }
 
     @Override
-    public void use(boolean playerAction, Combatant combatant) {
+    public boolean use(boolean playerAction, Combatant combatant) {
         if (playerAction) {
             System.out.println("you have equipped " + this.getName());
         } else {
             System.out.println("your opponent has equipped " + this.getName());
         }
+
+        combatant.addModifier(this.modifier);
+
+        return true;
     }
 }
