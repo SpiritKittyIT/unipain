@@ -1,6 +1,7 @@
 package cards;
 
 import encounters.Combatant;
+import modifiers.ModifierType;
 import statusEffects.Burning;
 import statusEffects.StatusEffect;
 
@@ -14,19 +15,23 @@ public class Fire extends Card {
     }
 
     @Override
-    public boolean use(boolean playerAction, Combatant combatant) {
+    public boolean use(boolean playerAction, Combatant user, Combatant target) {
         if (playerAction) {
             System.out.println("you have used " + this.getName());
         } else {
             System.out.println("your opponent has used " + this.getName());
         }
 
-        combatant.addStatusEffect(this.statusEffect);
+        int damageModified = user.applyModifiers(this.damage, target, ModifierType.ATTACK);
+        damageModified = target.applyModifiers(damageModified, target, ModifierType.DEFENCE);
+
+        target.dealDamage(damageModified);
+        target.addStatusEffect(this.statusEffect);
         
         if (playerAction) {
-            System.out.println("your opponent has " + combatant.getHp() + " hp left " + " and is now burning(" + this.statusEffect.getStacks() + ")");
+            System.out.println("your opponent has " + target.getHp() + " hp left " + " and is now burning(" + this.statusEffect.getStacks() + ")");
         } else {
-            System.out.println("you have " + combatant.getHp() + " hp left " + " and are now burning(" + this.statusEffect.getStacks() + ")");
+            System.out.println("you have " + target.getHp() + " hp left " + " and are now burning(" + this.statusEffect.getStacks() + ")");
         }
 
         return false;

@@ -11,7 +11,7 @@ public class Poisoned extends StatusEffect {
     public void activate(Combatant combatant) {
         System.out.println("Poison(" + this.getStacks() + ") has activated");
         int stacksConsumed = (int)Math.ceil(this.getStacks() / 2.0);
-        combatant.dealDamage(stacksConsumed, false);
+        combatant.dealDamage(stacksConsumed);
         this.addStacks(-stacksConsumed);
     }
 }

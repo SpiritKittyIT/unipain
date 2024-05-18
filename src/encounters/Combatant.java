@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import cards.Card;
+import cards.CardTarget;
 import creatures.Creature;
 import modifiers.Modifier;
+import modifiers.ModifierType;
 import statusEffects.StatusEffect;
 
 public class Combatant {
@@ -76,21 +78,12 @@ public class Combatant {
         Card card = this.hand.remove(index);
 
         boolean discard = false;
-        switch (card.getTarget()) {
-            case OPPONENT:
-                discard = card.use(playerAction, opponent);
-                break;
-            case SELF:
-                discard = card.use(playerAction, this);
-                break;
-        
-            default:
-                break;
-        }
+        discard = card.use(playerAction, this, card.getTarget() == CardTarget.OPPONENT ? opponent : this);
 
         if (discard) {
             return;
         }
+
         this.discard.add(card);
     }
 
@@ -116,12 +109,17 @@ public class Combatant {
         this.drawCount += count;
     }
 
-    public void dealDamage(int damage, boolean modifiers) {
-        if (modifiers) {
-            for (Modifier modifier : this.modifiers) {
-                damage = modifier.apply(damage, this);
+    public int applyModifiers(int damage, Combatant combatant, ModifierType type) {
+        for (Modifier modifier : this.modifiers) {
+            if (modifier.getType() == type) {
+                damage = modifier.apply(damage, combatant);
             }
         }
+
+        return damage;
+    }
+
+    public void dealDamage(int damage) {
         this.creature.addHp(-damage);
         
         System.out.println("The attack has dealt " + damage + " damage");

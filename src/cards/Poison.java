@@ -13,14 +13,14 @@ public class Poison extends Card {
     }
 
     @Override
-    public boolean use(boolean playerAction, Combatant combatant) {
+    public boolean use(boolean playerAction, Combatant user, Combatant target) {
         if (playerAction) {
             System.out.println("you have used " + this.getName());
         } else {
             System.out.println("your opponent has used " + this.getName());
         }
 
-        combatant.addStatusEffect(this.statusEffect);
+        target.addStatusEffect(this.statusEffect);
         
         if (playerAction) {
             System.out.println("your opponent has been poisoned(" + this.statusEffect.getStacks() + ")");

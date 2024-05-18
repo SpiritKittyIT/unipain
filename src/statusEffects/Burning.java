@@ -10,7 +10,7 @@ public class Burning extends StatusEffect {
     @Override
     public void activate(Combatant combatant) {
         System.out.println("Burning(" + this.getStacks() + ") has activated");
-        combatant.dealDamage(2, false);
+        combatant.dealDamage(2);
         this.addStacks(-2);
     }
 }

@@ -11,19 +11,19 @@ public class Healing extends Card {
     }
 
     @Override
-    public boolean use(boolean playerAction, Combatant combatant) {
+    public boolean use(boolean playerAction, Combatant user, Combatant target) {
         if (playerAction) {
             System.out.println("you have used " + this.getName());
         } else {
             System.out.println("your opponent has used " + this.getName());
         }
 
-        combatant.heal(this.health);
+        target.heal(this.health);
         
         if (playerAction) {
-            System.out.println("you have " + combatant.getHp() + " hp left");
+            System.out.println("you have " + target.getHp() + " hp left");
         } else {
-            System.out.println("your opponent has " + combatant.getHp() + " hp left");
+            System.out.println("your opponent has " + target.getHp() + " hp left");
         }
 
         return false;

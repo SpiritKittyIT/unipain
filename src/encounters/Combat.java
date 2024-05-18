@@ -86,7 +86,7 @@ public class Combat extends Encounter {
 
     private void finalise() {
         if (this.pc.getHp() > 0) {
-            System.out.println("so, you are not that useles, huh. after looting your opponent, you find 20 gold");
+            System.out.println("so, you are not that useles, huh. after looting your opponent, you find " + this.loot + " gold");
             PlayerGlobal.getPlayer().addGold(this.loot);
         }
     }

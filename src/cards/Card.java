@@ -13,7 +13,7 @@ public abstract class Card {
         this.type = type;
     }
 
-    public abstract boolean use(boolean playerAction, Combatant combatant);
+    public abstract boolean use(boolean playerAction, Combatant user, Combatant target);
 
     public String getName() {
         return this.name;

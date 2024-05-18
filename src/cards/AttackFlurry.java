@@ -1,6 +1,7 @@
 package cards;
 
 import encounters.Combatant;
+import modifiers.ModifierType;
 
 public class AttackFlurry extends Card {
     private int damage;
@@ -13,7 +14,7 @@ public class AttackFlurry extends Card {
     }
 
     @Override
-    public boolean use(boolean playerAction, Combatant combatant) {
+    public boolean use(boolean playerAction, Combatant user, Combatant target) {
         if (playerAction) {
             System.out.println("you have used " + this.getName());
         } else {
@@ -21,13 +22,16 @@ public class AttackFlurry extends Card {
         }
 
         for (int i = 0; i < this.attackCount; i++) {
-            combatant.dealDamage(this.damage, true);
+            int damageModified = user.applyModifiers(this.damage, target, ModifierType.ATTACK);
+            damageModified = target.applyModifiers(damageModified, target, ModifierType.DEFENCE);
+
+            target.dealDamage(damageModified);
         }
         
         if (playerAction) {
-            System.out.println("your opponent has " + combatant.getHp() + " hp left");
+            System.out.println("your opponent has " + target.getHp() + " hp left");
         } else {
-            System.out.println("you have " + combatant.getHp() + " hp left");
+            System.out.println("you have " + target.getHp() + " hp left");
         }
 
         return false;

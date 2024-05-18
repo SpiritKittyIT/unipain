@@ -10,7 +10,7 @@ public class Echo extends Modifier {
     @Override
     public int apply(int damage, Combatant combatant) {
         System.out.println("An echo(" + this.getValue() + ") has activated");
-        combatant.dealDamage(this.getValue(), false);
+        combatant.dealDamage(this.getValue());
         return damage;
     }
 }
