@@ -1,32 +1,38 @@
-import cards.Card;
-import cards.Confusion;
-import cards.Equipment;
-import cards.Fire;
-import cards.Healing;
-import cards.Inspiration;
-import cards.Poison;
-import creatures.Monster;
-import creatures.Player;
-import encounters.Combat;
-import encounters.Encounter;
-import encounters.Gym;
-import encounters.Shop;
-import encounters.Tavern;
-import global.PlayerGlobal;
-import global.Reader;
-import modifiers.Armour;
-import modifiers.Echo;
-import modifiers.Modifier;
-import modifiers.Weapon;
-
 import java.util.ArrayList;
 
-import cards.Attack;
-import cards.AttackFlurry;
-import cards.Blessing;
+import cardAdventure.Level;
+import cardAdventure.cards.Attack;
+import cardAdventure.cards.AttackFlurry;
+import cardAdventure.cards.Blessing;
+import cardAdventure.cards.Card;
+import cardAdventure.cards.Confusion;
+import cardAdventure.cards.Equipment;
+import cardAdventure.cards.Fire;
+import cardAdventure.cards.Healing;
+import cardAdventure.cards.Inspiration;
+import cardAdventure.cards.Poison;
+import cardAdventure.creatures.Monster;
+import cardAdventure.creatures.Player;
+import cardAdventure.encounters.Combat;
+import cardAdventure.encounters.Encounter;
+import cardAdventure.encounters.Gym;
+import cardAdventure.encounters.Shop;
+import cardAdventure.encounters.Tavern;
+import cardAdventure.global.PlayerGlobal;
+import cardAdventure.global.Reader;
+import cardAdventure.modifiers.Armour;
+import cardAdventure.modifiers.Echo;
+import cardAdventure.modifiers.Modifier;
+import cardAdventure.modifiers.Weapon;
 
+/**
+* Class to represent the Main program.
+*/
 public class Main {
-
+    /**
+    * Method to represent the Main program.
+    * @param args arguments of the Main program
+    */
     public static void main(String[] args) {
         Monster troll = new Monster(25, new ArrayList<Card>(), "troll");
         Card attClub = new Attack("Attack with a big club", "Give your opponent with a big club dealig {d} damage", 5);
